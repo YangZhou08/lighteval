@@ -63,7 +63,7 @@ from lighteval.utils.imports import (
 )
 from lighteval.utils.parallelism import test_all_gather
 from lighteval.utils.utils import make_results_table
-
+from termcolor import colored 
 
 if is_accelerate_available():
     from accelerate import Accelerator, InitProcessGroupKwargs
@@ -463,8 +463,10 @@ class Pipeline:
 
         for request_type, requests in self.requests.items():
             logger.info(f"Running {request_type} requests")
-            run_model = self.model.get_method_from_request_type(request_type=request_type)
-            responses = run_model(requests)
+            run_model = self.model.get_method_from_request_type(request_type=request_type) 
+            print(colored("request {}".format(requests), "green")) 
+            responses = run_model(requests) 
+            print(colored("response {}".format(responses), "green")) 
 
             # Storing the responses associated to the same samples together
             for response, request in zip(responses, requests):
